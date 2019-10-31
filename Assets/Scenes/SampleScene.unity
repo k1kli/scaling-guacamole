@@ -557,5 +557,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 963194228}
   cameraHorizontalRotator: {fileID: 1155072306}
-  speedX: 300
-  speedY: 300
+  cameraSpeedX: 300
+  cameraSpeedY: 300
+  playerSpeedForward: 2
+  playerSpeedSideways: 2

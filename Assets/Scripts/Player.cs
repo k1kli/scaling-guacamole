@@ -6,8 +6,10 @@ public class Player : MonoBehaviour
 {
     public Transform camera;
     public Transform cameraHorizontalRotator;
-    public float speedX = 5.0f;
-    public float speedY = 5.0f;
+    public float cameraSpeedX = 300.0f;
+    public float cameraSpeedY = 300.0f;
+    public float playerSpeedForward = 2.0f;
+    public float playerSpeedSideways = 2.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,15 +19,36 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float x = Input.GetAxis("Mouse X");
-        float y = Input.GetAxis("Mouse Y");
-        if(Mathf.Abs(x) > float.Epsilon)
+        CameraMovement();
+        PlayerMovement();
+    }
+    void CameraMovement()
+    {
+        float mouseX = Input.GetAxis("Mouse X");
+        float mouseY = Input.GetAxis("Mouse Y");
+        if (Mathf.Abs(mouseX) > float.Epsilon)
         {
-            cameraHorizontalRotator.Rotate(0.0f, x * speedX*Time.deltaTime, 0.0f);
+            cameraHorizontalRotator.Rotate(0.0f, mouseX * cameraSpeedX * Time.deltaTime, 0.0f);
         }
-        if (Mathf.Abs(y) > float.Epsilon)
+        if (Mathf.Abs(mouseY) > float.Epsilon)
         {
-            camera.Rotate(-y * speedY * Time.deltaTime, 0.0f, 0.0f);
+            camera.Rotate(-mouseY * cameraSpeedY * Time.deltaTime, 0.0f, 0.0f);
         }
+    }
+    void PlayerMovement()
+    {
+        float playerX = Input.GetAxis("Horizontal");
+        float playerY = Input.GetAxis("Vertical");
+        if (Mathf.Abs(playerX) > float.Epsilon)
+        {
+            Vector3 right = cameraHorizontalRotator.right;
+            transform.localPosition = transform.localPosition + playerX * right * playerSpeedSideways * Time.deltaTime;
+        }
+        if (Mathf.Abs(playerY) > float.Epsilon)
+        {
+            Vector3 forward = cameraHorizontalRotator.forward;
+            transform.localPosition = transform.localPosition + playerY * forward * playerSpeedForward * Time.deltaTime;
+        }
+
     }
 }
