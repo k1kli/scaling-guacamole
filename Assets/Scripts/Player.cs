@@ -14,7 +14,9 @@ public class Player : MonoBehaviour
     public TimeController timeController;
     private Rigidbody body;
     private Vector3 cameraRelativePos;
-    private void OnEnable()
+
+    private bool cameraRotation = false;
+    private bool playerMove = false;    private void OnEnable()
     {
         body = bodyTransform.GetComponent<Rigidbody>();
     }
@@ -28,6 +30,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         CameraMovement();
+        timeController.SetTimescale(cameraRotation, playerMove, 0f);
     }
     private void FixedUpdate()
     {
@@ -40,32 +43,39 @@ public class Player : MonoBehaviour
         if (Mathf.Abs(mouseX) > float.Epsilon)
         {
             cameraHorizontalRotator.Rotate(0.0f, mouseX * cameraSpeedX * Time.unscaledDeltaTime, 0.0f);
+            cameraRotation = true;
         }
         if (Mathf.Abs(mouseY) > float.Epsilon)
         {
             cameraTransform.Rotate(-mouseY * cameraSpeedY * Time.unscaledDeltaTime, 0.0f, 0.0f);
+            cameraRotation = true;
+        }
+        else
+        {
+            if (!(Mathf.Abs(mouseX) > float.Epsilon))
+                cameraRotation = false;
         }
     }
     void PlayerMovement()
     {
         float playerX = Input.GetAxis("Horizontal");
         float playerY = Input.GetAxis("Vertical");
-        timeController.SetSlowedTimescale();
         if (Mathf.Abs(playerX) > float.Epsilon)
         {
             Vector3 right = cameraHorizontalRotator.right;
             body.AddForce(playerX * right * playerSpeedSideways);
+            playerMove = true;
             //transform.localPosition = transform.localPosition + playerX * right * playerSpeedSideways * Time.deltaTime;
-            timeController.SetNormalTimescale();
         }
         if (Mathf.Abs(playerY) > float.Epsilon)
         {
             Vector3 forward = cameraHorizontalRotator.forward;
             body.AddForce(playerY * forward * playerSpeedForward);
+            playerMove = true;
             //transform.localPosition = transform.localPosition + playerY * forward * playerSpeedForward * Time.deltaTime;
-            timeController.SetNormalTimescale();
         }
+        else if (!(Mathf.Abs(playerY) > float.Epsilon))
+            playerMove = false;
         cameraHorizontalRotator.position = bodyTransform.position + cameraRelativePos;
-
     }
 }

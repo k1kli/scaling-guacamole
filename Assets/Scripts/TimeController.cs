@@ -5,25 +5,25 @@ using UnityEngine;
 
 public class TimeController : MonoBehaviour
 {
-    public float slowedTimescale = 0.1f;
-    public float normalTimescale = 1.0f;
+    public float noMoveTimescale = 0.05f;
+    public float rotateTimescale = 0.25f;
+    public float maxTimescale = 1.0f;
     private float defaultFixedDeltaTime;
-    // Start is called before the first frame update
     void Start()
     {
         defaultFixedDeltaTime = Time.fixedDeltaTime;
-        SetSlowedTimescale();
+        SetTimescale(false,false, 0f);
     }
+    public void SetTimescale(bool cameraRotate, bool moveKeyPressed, float speed)
+    {
+        if (cameraRotate && Time.timeScale < rotateTimescale)
+            Time.timeScale = rotateTimescale;
+        if (moveKeyPressed)
+            Time.timeScale = maxTimescale;
+        if (!moveKeyPressed && !cameraRotate)
+            Time.timeScale = noMoveTimescale;
 
-    public void SetNormalTimescale()
-    {
-        Time.timeScale = normalTimescale;
-        Time.fixedDeltaTime = defaultFixedDeltaTime * normalTimescale;
-    }
-    public void SetSlowedTimescale()
-    {
-        Time.timeScale = slowedTimescale;
-        Time.fixedDeltaTime = defaultFixedDeltaTime * slowedTimescale;
+        Time.fixedDeltaTime = defaultFixedDeltaTime * Time.timeScale;
     }
 
 }
