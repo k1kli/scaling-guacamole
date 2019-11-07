@@ -9,6 +9,8 @@ public abstract class Enemy : MonoBehaviour {
     }
     public void TakeDamage(float damage) {
         Health -= EffectiveDamage(damage);
+        if (Health <= 0)
+            Destroy(gameObject);
     }
     protected virtual float EffectiveDamage(float damage) {
         return damage;

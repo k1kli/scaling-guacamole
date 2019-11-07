@@ -7,6 +7,10 @@ public class StationaryCannon : Enemy {
     private Transform playerTransform;
     private readonly float speed = 1;
 
+    private void Start() {
+        Init(100);
+    }
+
     private void OnEnable() {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         headTransform.LookAt(playerTransform);
