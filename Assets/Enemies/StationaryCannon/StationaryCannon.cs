@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StationaryCannon : MonoBehaviour {
+public class StationaryCannon : Enemy {
     public Transform headTransform;
     private Transform playerTransform;
     private readonly float speed = 1;
