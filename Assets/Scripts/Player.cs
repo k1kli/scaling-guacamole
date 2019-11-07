@@ -6,21 +6,31 @@ public class Player : MonoBehaviour
 {
     public Transform cameraTransform;
     public Transform cameraHorizontalRotator;
+    public Transform bodyTransform;
     public float cameraSpeedX = 300.0f;
     public float cameraSpeedY = 300.0f;
     public float playerSpeedForward = 2.0f;
     public float playerSpeedSideways = 2.0f;
     public TimeController timeController;
+    private Rigidbody body;
+    private Vector3 cameraRelativePos;
+    private void OnEnable()
+    {
+        body = bodyTransform.GetComponent<Rigidbody>();
+    }
     // Start is called before the first frame update
     void Start()
     {
-        
+        cameraRelativePos = cameraHorizontalRotator.position - bodyTransform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
         CameraMovement();
+    }
+    private void FixedUpdate()
+    {
         PlayerMovement();
     }
     void CameraMovement()
@@ -44,15 +54,18 @@ public class Player : MonoBehaviour
         if (Mathf.Abs(playerX) > float.Epsilon)
         {
             Vector3 right = cameraHorizontalRotator.right;
-            transform.localPosition = transform.localPosition + playerX * right * playerSpeedSideways * Time.deltaTime;
+            body.AddForce(playerX * right * playerSpeedSideways);
+            //transform.localPosition = transform.localPosition + playerX * right * playerSpeedSideways * Time.deltaTime;
             timeController.SetNormalTimescale();
         }
         if (Mathf.Abs(playerY) > float.Epsilon)
         {
             Vector3 forward = cameraHorizontalRotator.forward;
-            transform.localPosition = transform.localPosition + playerY * forward * playerSpeedForward * Time.deltaTime;
+            body.AddForce(playerY * forward * playerSpeedForward);
+            //transform.localPosition = transform.localPosition + playerY * forward * playerSpeedForward * Time.deltaTime;
             timeController.SetNormalTimescale();
         }
+        cameraHorizontalRotator.position = bodyTransform.position + cameraRelativePos;
 
     }
 }
