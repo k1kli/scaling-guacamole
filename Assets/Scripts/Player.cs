@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     public TimeController timeController;
     private Rigidbody body;
     private Vector3 cameraRelativePos;
+    public Bullet bulletPrefab;
     private void OnEnable()
     {
         body = bodyTransform.GetComponent<Rigidbody>();
@@ -28,6 +29,10 @@ public class Player : MonoBehaviour
     void Update()
     {
         CameraMovement();
+        if(Input.GetMouseButtonDown(0))
+        {
+            Shoot();
+        }
     }
     private void FixedUpdate()
     {
@@ -66,6 +71,11 @@ public class Player : MonoBehaviour
             timeController.SetNormalTimescale();
         }
         cameraHorizontalRotator.position = bodyTransform.position + cameraRelativePos;
-
+    }
+    void Shoot()
+    {
+        Bullet bullet = GameObject.Instantiate<Bullet>(bulletPrefab);
+        bullet.transform.localPosition = cameraTransform.position + cameraTransform.forward * 0.5f;
+        bullet.Init(cameraTransform.forward);
     }
 }
