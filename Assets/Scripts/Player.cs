@@ -75,7 +75,7 @@ public class Player : MonoBehaviour
     void Shoot()
     {
         Bullet bullet = GameObject.Instantiate<Bullet>(bulletPrefab);
-        bullet.transform.localPosition = cameraTransform.position + cameraTransform.forward * 0.5f;
+        bullet.transform.localPosition = bodyTransform.position + cameraTransform.forward * 0.7f;
         bullet.Init(cameraTransform.forward);
     }
 }
