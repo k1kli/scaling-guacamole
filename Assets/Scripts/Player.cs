@@ -16,7 +16,8 @@ public class Player : MonoBehaviour
     private Vector3 cameraRelativePos;
 
     private bool cameraRotation = false;
-    private bool playerMove = false;    private void OnEnable()
+    private bool playerMove = false;    
+    private void OnEnable()
     {
         body = bodyTransform.GetComponent<Rigidbody>();
     }
@@ -30,11 +31,12 @@ public class Player : MonoBehaviour
     void Update()
     {
         CameraMovement();
-        timeController.SetTimescale(cameraRotation, playerMove, 0f);
+        
     }
     private void FixedUpdate()
     {
         PlayerMovement();
+        timeController.SetTimescale(cameraRotation, playerMove);
     }
     void CameraMovement()
     {
@@ -50,11 +52,8 @@ public class Player : MonoBehaviour
             cameraTransform.Rotate(-mouseY * cameraSpeedY * Time.unscaledDeltaTime, 0.0f, 0.0f);
             cameraRotation = true;
         }
-        else
-        {
-            if (!(Mathf.Abs(mouseX) > float.Epsilon))
+        else if (!(Mathf.Abs(mouseX) > float.Epsilon))
                 cameraRotation = false;
-        }
     }
     void PlayerMovement()
     {
@@ -74,7 +73,7 @@ public class Player : MonoBehaviour
             playerMove = true;
             //transform.localPosition = transform.localPosition + playerY * forward * playerSpeedForward * Time.deltaTime;
         }
-        else if (!(Mathf.Abs(playerY) > float.Epsilon))
+        else if (!(Mathf.Abs(playerX) > float.Epsilon))
             playerMove = false;
         cameraHorizontalRotator.position = bodyTransform.position + cameraRelativePos;
     }
