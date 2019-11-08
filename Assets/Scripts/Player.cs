@@ -15,8 +15,6 @@ public class Player : MonoBehaviour
     private Rigidbody body;
     private Vector3 cameraRelativePos;
 
-    private bool cameraRotation = false;
-    private bool playerMove = false;    
     private void OnEnable()
     {
         body = bodyTransform.GetComponent<Rigidbody>();
@@ -31,12 +29,11 @@ public class Player : MonoBehaviour
     void Update()
     {
         CameraMovement();
-        
+
     }
     private void FixedUpdate()
     {
         PlayerMovement();
-        timeController.SetTimescale(cameraRotation, playerMove);
     }
     void CameraMovement()
     {
@@ -45,36 +42,35 @@ public class Player : MonoBehaviour
         if (Mathf.Abs(mouseX) > float.Epsilon)
         {
             cameraHorizontalRotator.Rotate(0.0f, mouseX * cameraSpeedX * Time.unscaledDeltaTime, 0.0f);
-            cameraRotation = true;
         }
         if (Mathf.Abs(mouseY) > float.Epsilon)
         {
             cameraTransform.Rotate(-mouseY * cameraSpeedY * Time.unscaledDeltaTime, 0.0f, 0.0f);
-            cameraRotation = true;
         }
-        else if (!(Mathf.Abs(mouseX) > float.Epsilon))
-                cameraRotation = false;
+        timeController.SetCameraRotationInfluence(mouseX, mouseY);
     }
     void PlayerMovement()
     {
-        float playerX = Input.GetAxis("Horizontal");
-        float playerY = Input.GetAxis("Vertical");
-        if (Mathf.Abs(playerX) > float.Epsilon)
+        Vector2 movement;
+        movement.x = Input.GetAxis("Horizontal");
+        movement.y = Input.GetAxis("Vertical");
+        if(movement.sqrMagnitude > 1f)
+        {
+            movement.Normalize();
+        }
+        if (Mathf.Abs(movement.x) > float.Epsilon)
         {
             Vector3 right = cameraHorizontalRotator.right;
-            body.AddForce(playerX * right * playerSpeedSideways);
-            playerMove = true;
+            body.AddForce(movement.x * right * playerSpeedSideways);
             //transform.localPosition = transform.localPosition + playerX * right * playerSpeedSideways * Time.deltaTime;
         }
-        if (Mathf.Abs(playerY) > float.Epsilon)
+        if (Mathf.Abs(movement.y) > float.Epsilon)
         {
             Vector3 forward = cameraHorizontalRotator.forward;
-            body.AddForce(playerY * forward * playerSpeedForward);
-            playerMove = true;
+            body.AddForce(movement.y * forward * playerSpeedForward);
             //transform.localPosition = transform.localPosition + playerY * forward * playerSpeedForward * Time.deltaTime;
         }
-        else if (!(Mathf.Abs(playerX) > float.Epsilon))
-            playerMove = false;
+        timeController.SetMovementInfluence(movement.magnitude);
         cameraHorizontalRotator.position = bodyTransform.position + cameraRelativePos;
     }
 }
