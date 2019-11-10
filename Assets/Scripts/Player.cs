@@ -30,18 +30,18 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        PlayerMovement();
         CameraMovement();
-        
+        timeController.SetTimescale(cameraRotation, playerMove);
     }
     private void FixedUpdate()
     {
-        PlayerMovement();
-        timeController.SetTimescale(cameraRotation, playerMove);
+        
     }
     void CameraMovement()
     {
         float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
+        float mouseY = Input.GetAxis("Mouse Y");                    
         if (Mathf.Abs(mouseX) > float.Epsilon)
         {
             cameraHorizontalRotator.Rotate(0.0f, mouseX * cameraSpeedX * Time.unscaledDeltaTime, 0.0f);
