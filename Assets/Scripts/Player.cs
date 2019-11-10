@@ -15,8 +15,11 @@ public class Player : MonoBehaviour
     private Rigidbody body;
     private Vector3 cameraRelativePos;
 
+
     private bool cameraRotation = false;
     private bool playerMove = false;    
+    public Bullet bulletPrefab;
+
     private void OnEnable()
     {
         body = bodyTransform.GetComponent<Rigidbody>();
@@ -33,6 +36,11 @@ public class Player : MonoBehaviour
         PlayerMovement();
         CameraMovement();
         timeController.SetTimescale(cameraRotation, playerMove);
+        if(Input.GetMouseButtonDown(0))
+        {
+            Shoot();
+        }
+
     }
     private void FixedUpdate()
     {
@@ -76,5 +84,11 @@ public class Player : MonoBehaviour
         else if (!(Mathf.Abs(playerX) > float.Epsilon))
             playerMove = false;
         cameraHorizontalRotator.position = bodyTransform.position + cameraRelativePos;
+    }
+    void Shoot()
+    {
+        Bullet bullet = GameObject.Instantiate<Bullet>(bulletPrefab);
+        bullet.transform.localPosition = bodyTransform.position + cameraTransform.forward * 0.7f;
+        bullet.Init(cameraTransform.forward);
     }
 }
