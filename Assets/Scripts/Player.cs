@@ -49,7 +49,8 @@ public class Player : MonoBehaviour
     void CameraMovement()
     {
         float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");                    
+        float mouseY = Input.GetAxis("Mouse Y");
+        cameraRotation = false;
         if (Mathf.Abs(mouseX) > float.Epsilon)
         {
             cameraHorizontalRotator.Rotate(0.0f, mouseX * cameraSpeedX * Time.unscaledDeltaTime, 0.0f);
@@ -59,30 +60,28 @@ public class Player : MonoBehaviour
         {
             cameraTransform.Rotate(-mouseY * cameraSpeedY * Time.unscaledDeltaTime, 0.0f, 0.0f);
             cameraRotation = true;
-        }
-        else if (!(Mathf.Abs(mouseX) > float.Epsilon))
-                cameraRotation = false;
+        }       
     }
     void PlayerMovement()
     {
-        float playerX = Input.GetAxis("Horizontal");
-        float playerY = Input.GetAxis("Vertical");
-        if (Mathf.Abs(playerX) > float.Epsilon)
+        Vector2 movement;
+        movement.x = Input.GetAxis("Horizontal");
+        movement.y = Input.GetAxis("Vertical");
+        if (movement.sqrMagnitude > 1f)
+            movement.Normalize();
+        playerMove = false;
+        if (Mathf.Abs(movement.x) > float.Epsilon)
         {
             Vector3 right = cameraHorizontalRotator.right;
-            body.AddForce(playerX * right * playerSpeedSideways);
+            body.AddForce(movement.x * right * playerSpeedSideways);
             playerMove = true;
-            //transform.localPosition = transform.localPosition + playerX * right * playerSpeedSideways * Time.deltaTime;
         }
-        if (Mathf.Abs(playerY) > float.Epsilon)
+        if (Mathf.Abs(movement.y) > float.Epsilon)
         {
             Vector3 forward = cameraHorizontalRotator.forward;
-            body.AddForce(playerY * forward * playerSpeedForward);
-            playerMove = true;
-            //transform.localPosition = transform.localPosition + playerY * forward * playerSpeedForward * Time.deltaTime;
+            body.AddForce(movement.y * forward * playerSpeedForward);
+            playerMove = true;            
         }
-        else if (!(Mathf.Abs(playerX) > float.Epsilon))
-            playerMove = false;
         cameraHorizontalRotator.position = bodyTransform.position + cameraRelativePos;
     }
     void Shoot()
