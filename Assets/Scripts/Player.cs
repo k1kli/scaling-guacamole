@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     public TimeController timeController;
     private Rigidbody body;
     private Vector3 cameraRelativePos;
+    private float reloadProgress = 0.0f;
+    public float reloadTime = 0.3f;
 
 
     private bool cameraRotation = false;
@@ -36,9 +38,9 @@ public class Player : MonoBehaviour
         PlayerMovement();
         CameraMovement();
         timeController.SetTimescale(cameraRotation, playerMove);
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButton(0))
         {
-            Shoot();
+            StartCoroutine(Shoot());
         }
 
     }
@@ -84,10 +86,16 @@ public class Player : MonoBehaviour
         }
         cameraHorizontalRotator.position = bodyTransform.position + cameraRelativePos;
     }
-    void Shoot()
+    IEnumerator Shoot()
     {
-        Bullet bullet = GameObject.Instantiate<Bullet>(bulletPrefab);
-        bullet.transform.localPosition = bodyTransform.position + cameraTransform.forward * 0.7f;
-        bullet.Init(cameraTransform.forward);
+        reloadProgress += Time.deltaTime;
+        while(reloadProgress >= reloadTime)
+        {
+            Bullet bullet = GameObject.Instantiate<Bullet>(bulletPrefab);
+            bullet.transform.localPosition = bodyTransform.position + cameraTransform.forward * 0.7f;
+            bullet.Init(cameraTransform.forward);
+            reloadProgress -= reloadTime;
+        }
+        yield return null;
     }
 }
