@@ -94,7 +94,7 @@ public class Player : DamageTaker
         while(reloadProgress >= reloadTime)
         {
             Bullet bullet = GameObject.Instantiate<Bullet>(bulletPrefab);
-            bullet.transform.localPosition = bodyTransform.position + cameraTransform.forward * 0.7f;
+            bullet.transform.localPosition = cameraTransform.position + cameraTransform.forward * 0.7f;
             bullet.Init(cameraTransform.forward);
             reloadProgress =0;
         }
