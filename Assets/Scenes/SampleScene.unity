@@ -230,8 +230,9 @@ GameObject:
   - component: {fileID: 188687839}
   - component: {fileID: 188687841}
   - component: {fileID: 188687840}
+  - component: {fileID: 188687842}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Sight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -292,6 +293,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 188687838}
   m_CullTransparentMesh: 0
+--- !u!114 &188687842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188687838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16bc2f6c08b837248afc9e81c7f355d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerCameraTransform: {fileID: 963194228}
+  NormalSight: {fileID: 0}
+  RedSight: {fileID: 0}
 --- !u!1 &511930122
 GameObject:
   m_ObjectHideFlags: 0
