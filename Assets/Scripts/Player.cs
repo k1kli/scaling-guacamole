@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class Player : MonoBehaviour
+public class Player : DamageTaker
 {
     public Transform cameraTransform;
     public Transform cameraHorizontalRotator;
@@ -19,7 +20,7 @@ public class Player : MonoBehaviour
 
 
     private bool cameraRotation = false;
-    private bool playerMove = false;    
+    private bool playerMove = false;
     public Bullet bulletPrefab;
 
     private void OnEnable()
@@ -29,6 +30,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Init(20);
         cameraRelativePos = cameraHorizontalRotator.position - bodyTransform.position;
     }
 
@@ -47,7 +49,7 @@ public class Player : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        
+
     }
     void CameraMovement()
     {
@@ -63,7 +65,7 @@ public class Player : MonoBehaviour
         {
             cameraTransform.Rotate(-mouseY * cameraSpeedY * Time.unscaledDeltaTime, 0.0f, 0.0f);
             cameraRotation = true;
-        }       
+        }
     }
     void PlayerMovement()
     {
@@ -83,7 +85,7 @@ public class Player : MonoBehaviour
         {
             Vector3 forward = cameraHorizontalRotator.forward;
             body.AddForce(movement.y * forward * playerSpeedForward);
-            playerMove = true;            
+            playerMove = true;
         }
         cameraHorizontalRotator.position = bodyTransform.position + cameraRelativePos;
     }
@@ -97,5 +99,9 @@ public class Player : MonoBehaviour
             reloadProgress =0;
         }
         yield return null;
+    }
+    public override void Die()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

@@ -64,6 +64,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   headTransform: {fileID: 1693737546099150649}
+  reloadTime: 1
+  cannonBallPrefab: {fileID: 1208001286455631421, guid: 09670eb2b0cd9d14486943c224efdf7b,
+    type: 3}
 --- !u!1 &2179985262470993305
 GameObject:
   m_ObjectHideFlags: 0

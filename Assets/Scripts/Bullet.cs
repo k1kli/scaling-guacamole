@@ -6,24 +6,27 @@ public class Bullet : MonoBehaviour
 {
     private Vector3 direction = Vector3.zero;
     public float speed = 10f;
+    public string targetTag;
     // Start is called before the first frame update
     public void Init(Vector3 direction)
     {
         this.direction = direction;
         transform.forward = direction;
     }
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.collider.CompareTag("Enemy")) 
+        Debug.Log("hit something");
+        if (other.CompareTag(targetTag))
         {
-            var enemy = collision.collider.gameObject.GetComponentInParent<Enemy>();
-            enemy.TakeDamage(10);
+            Debug.Log("hit player");
+            var damageTaker = other.gameObject.GetComponentInParent<DamageTaker>();
+            damageTaker.TakeDamage(10);
             Destroy(gameObject);
         }
     }
-    private void OnCollisionExit(Collision collision)
+    private void OnTriggerExit(Collider other)
     {
-        if(collision.collider.CompareTag("BoundingSphere"))
+        if (other.CompareTag("BoundingSphere"))
         {
             Destroy(this.gameObject);
         }

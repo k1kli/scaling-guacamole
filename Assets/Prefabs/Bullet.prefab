@@ -137,7 +137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 489eaecce87a0ed4a9d9bfe1109b890f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 3
+  targetTag: Enemy
 --- !u!136 &135272406328686074
 CapsuleCollider:
   m_ObjectHideFlags: 0
