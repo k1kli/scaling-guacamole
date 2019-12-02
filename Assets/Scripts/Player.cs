@@ -38,7 +38,8 @@ public class Player : MonoBehaviour
         PlayerMovement();
         CameraMovement();
         timeController.SetTimescale(cameraRotation, playerMove);
-        if(Input.GetMouseButton(0))
+        reloadProgress += Time.deltaTime;
+        if (Input.GetMouseButton(0))
         {
             StartCoroutine(Shoot());
         }
@@ -88,13 +89,12 @@ public class Player : MonoBehaviour
     }
     IEnumerator Shoot()
     {
-        reloadProgress += Time.deltaTime;
         while(reloadProgress >= reloadTime)
         {
             Bullet bullet = GameObject.Instantiate<Bullet>(bulletPrefab);
             bullet.transform.localPosition = bodyTransform.position + cameraTransform.forward * 0.7f;
             bullet.Init(cameraTransform.forward);
-            reloadProgress -= reloadTime;
+            reloadProgress =0;
         }
         yield return null;
     }
