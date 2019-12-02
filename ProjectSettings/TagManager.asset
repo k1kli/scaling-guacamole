@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - BoundingSphere
+  - Enemy
+  - Environment
   layers:
   - Default
   - TransparentFX
