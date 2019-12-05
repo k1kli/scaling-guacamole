@@ -410,8 +410,8 @@ Rigidbody:
   m_GameObject: {fileID: 511930122}
   serializedVersion: 2
   m_Mass: 0.3
-  m_Drag: 0.1
-  m_AngularDrag: 0.1
+  m_Drag: 1
+  m_AngularDrag: 0.4
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -926,6 +926,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: StationaryCannon
       objectReference: {fileID: 0}
+    - target: {fileID: 162685575451786829, guid: 5f55362a683833649b4acb576b61b8d4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 162685575451786828, guid: 5f55362a683833649b4acb576b61b8d4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1101,7 +1106,9 @@ MonoBehaviour:
   cameraSpeedY: 300
   playerSpeedForward: 2
   playerSpeedSideways: 2
+  PlayerJumpPower: 8
   timeController: {fileID: 1627630981}
   reloadTime: 0.3
+  MaxJumpMaxDuration: 0.3
   bulletPrefab: {fileID: 4914114233171845660, guid: 32339bbdc2f09284d8d60134830c1d25,
     type: 3}
