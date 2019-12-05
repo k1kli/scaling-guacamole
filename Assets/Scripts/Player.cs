@@ -12,11 +12,17 @@ public class Player : DamageTaker
     public float cameraSpeedY = 300.0f;
     public float playerSpeedForward = 2.0f;
     public float playerSpeedSideways = 2.0f;
+    public float PlayerJumpPower = 2.0f;
     public TimeController timeController;
     private Rigidbody body;
     private Vector3 cameraRelativePos;
     private float reloadProgress = 0.0f;
     public float reloadTime = 0.3f;
+    private float jumpProgress = 0f;
+    public float MaxJumpMaxDuration = 1f;
+    private bool jumped = false;
+    private bool inAir = false;
+
 
 
     private bool cameraRotation = false;
@@ -69,22 +75,45 @@ public class Player : DamageTaker
     }
     void PlayerMovement()
     {
-        Vector2 movement;
+        Vector3 movement;
         movement.x = Input.GetAxis("Horizontal");
-        movement.y = Input.GetAxis("Vertical");
+        movement.z = Input.GetAxis("Vertical");
+        movement.y = Input.GetAxis("Jump");
         if (movement.sqrMagnitude > 1f)
             movement.Normalize();
         playerMove = false;
+        float verticalVelocity = body.velocity.y;
+        if (Mathf.Abs(verticalVelocity) <= 0.01f)
+        {
+            jumped = false;
+            inAir = false;
+            jumpProgress = 0f;
+        }
+        else
+        {
+            inAir = true;
+        }
+        if (Mathf.Abs(movement.y) > float.Epsilon && 
+            ((!jumped && !inAir) ||
+            (jumped && jumpProgress < MaxJumpMaxDuration)))
+        {
+            Debug.Log("Jump");
+            Vector3 up = Vector3.up;
+            body.AddForce(movement.y * up * PlayerJumpPower);
+            playerMove = true;
+            jumpProgress += Time.deltaTime;
+            jumped = true;
+        }
         if (Mathf.Abs(movement.x) > float.Epsilon)
         {
             Vector3 right = cameraHorizontalRotator.right;
             body.AddForce(movement.x * right * playerSpeedSideways);
             playerMove = true;
         }
-        if (Mathf.Abs(movement.y) > float.Epsilon)
+        if (Mathf.Abs(movement.z) > float.Epsilon)
         {
             Vector3 forward = cameraHorizontalRotator.forward;
-            body.AddForce(movement.y * forward * playerSpeedForward);
+            body.AddForce(movement.z * forward * playerSpeedForward);
             playerMove = true;
         }
         cameraHorizontalRotator.position = bodyTransform.position + cameraRelativePos;
