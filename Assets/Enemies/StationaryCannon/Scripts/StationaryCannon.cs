@@ -8,7 +8,7 @@ public class StationaryCannon : DamageTaker {
     private Transform playerTransform;
     public float reloadTime = 1f;
     private float reloadProgress = 0f;
-    public Bullet cannonBallPrefab;
+    public StationaryCannonBullet cannonBallPrefab;
 
     private void Start() {
         Init(100);
@@ -31,7 +31,7 @@ public class StationaryCannon : DamageTaker {
         while(reloadProgress >= reloadTime)
         {
             reloadProgress -= reloadTime;
-            Bullet cannonBall = GameObject.Instantiate<Bullet>(cannonBallPrefab);
+            Bullet cannonBall = GameObject.Instantiate<StationaryCannonBullet>(cannonBallPrefab);
             cannonBall.transform.localPosition = headTransform.position + headTransform.forward * 0.7f;
             cannonBall.Init(headTransform.forward);
         }
