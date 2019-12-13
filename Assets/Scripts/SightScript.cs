@@ -7,16 +7,30 @@ using UnityEngine.UI;
 public class SightScript : MonoBehaviour
 {
     public Transform PlayerCameraTransform;
+    public Player player;
     public Sprite NormalSight;
     public Sprite RedSight;
+    public Sprite ReloadSight;
     private Image image;
 
     private void Awake()
     {
-        NormalSight = Resources.Load<Sprite>("Sight");
-        RedSight = Resources.Load<Sprite>("RedSight");
         image = GetComponent<Image>();
+        player.ReloadStart += Player_ReloadStart;
+        player.ReloadEnd += Player_ReloadEnd;
     }
+
+    private void Player_ReloadEnd()
+    {
+        this.enabled = true;
+    }
+
+    private void Player_ReloadStart()
+    {
+        image.sprite = ReloadSight;
+        this.enabled = false;
+    }
+
     // Update is called once per frame
     void LateUpdate()
     {

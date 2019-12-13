@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,6 +23,10 @@ public class Player : DamageTaker
     public float MaxJumpMaxDuration = 1f;
     private bool jumped = false;
     private bool inAir = false;
+    private bool readyToShoot = true;
+
+    public event System.Action ReloadStart;
+    public event System.Action ReloadEnd;
 
 
 
@@ -46,13 +51,27 @@ public class Player : DamageTaker
         PlayerMovement();
         CameraMovement();
         timeController.SetTimescale(cameraRotation, playerMove);
-        reloadProgress += Time.deltaTime;
-        if (Input.GetMouseButton(0))
+        ShootingControl();
+
+    }
+
+    private void ShootingControl()
+    {
+        if (!readyToShoot)
+        {
+            reloadProgress += Time.deltaTime;
+            if (reloadProgress >= reloadTime)
+            {
+                readyToShoot = true;
+                ReloadEnd();
+            }
+        }
+        else if (Input.GetMouseButton(0))
         {
             StartCoroutine(Shoot());
         }
-
     }
+
     private void FixedUpdate()
     {
 
@@ -120,13 +139,12 @@ public class Player : DamageTaker
     }
     IEnumerator Shoot()
     {
-        while(reloadProgress >= reloadTime)
-        {
-            Bullet bullet = GameObject.Instantiate<PlayerBullet>(bulletPrefab);
-            bullet.transform.localPosition = cameraTransform.position + cameraTransform.forward * 0.7f;
-            bullet.Init(cameraTransform.forward);
-            reloadProgress =0;
-        }
+        ReloadStart?.Invoke();
+        Bullet bullet = GameObject.Instantiate<PlayerBullet>(bulletPrefab);
+        bullet.transform.localPosition = cameraTransform.position + cameraTransform.forward * 0.7f;
+        bullet.Init(cameraTransform.forward);
+        readyToShoot = false;
+        reloadProgress =0;
         yield return null;
     }
     public override void Die()
