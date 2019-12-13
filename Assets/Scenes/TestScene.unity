@@ -756,8 +756,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerCameraTransform: {fileID: 713234587}
-  NormalSight: {fileID: 0}
-  RedSight: {fileID: 0}
+  player: {fileID: 287538871}
+  NormalSight: {fileID: 21300000, guid: 29c79281f5836324791ff159222ef360, type: 3}
+  RedSight: {fileID: 21300000, guid: dd3df586a381fa74cab4ed6e06dc7c33, type: 3}
+  ReloadSight: {fileID: 21300000, guid: 8b2f6782d9f568f4783934932189f6e8, type: 3}
 --- !u!114 &257433674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -922,8 +924,10 @@ MonoBehaviour:
   cameraSpeedY: 300
   playerSpeedForward: 2
   playerSpeedSideways: 2
+  PlayerJumpPower: 10
   timeController: {fileID: 461398819}
   reloadTime: 0.3
+  MaxJumpMaxDuration: 0.3
   bulletPrefab: {fileID: 4914114233171845660, guid: 32339bbdc2f09284d8d60134830c1d25,
     type: 3}
 --- !u!4 &287538872
