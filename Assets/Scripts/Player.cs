@@ -32,7 +32,7 @@ public class Player : DamageTaker
 
     private bool cameraRotation = false;
     private bool playerMove = false;
-    public Bullet bulletPrefab;
+    public PlayerBullet bulletPrefab;
 
     private void OnEnable()
     {
@@ -140,7 +140,7 @@ public class Player : DamageTaker
     IEnumerator Shoot()
     {
         ReloadStart?.Invoke();
-        Bullet bullet = GameObject.Instantiate<Bullet>(bulletPrefab);
+        Bullet bullet = GameObject.Instantiate<PlayerBullet>(bulletPrefab);
         bullet.transform.localPosition = cameraTransform.position + cameraTransform.forward * 0.7f;
         bullet.Init(cameraTransform.forward);
         readyToShoot = false;

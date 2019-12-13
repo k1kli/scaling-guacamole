@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public abstract class Bullet : MonoBehaviour
 {
     private Vector3 direction = Vector3.zero;
     public float speed = 10f;
@@ -21,8 +21,9 @@ public class Bullet : MonoBehaviour
             Debug.Log("hit player");
             var damageTaker = other.gameObject.GetComponentInParent<DamageTaker>();
             damageTaker.TakeDamage(10);
-            Destroy(gameObject);
         }
+        OnHit();
+        Destroy(gameObject);
     }
     private void OnTriggerExit(Collider other)
     {
@@ -31,7 +32,8 @@ public class Bullet : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-    // Update is called once per frame
+
+    virtual protected void OnHit() { }
     void Update()
     {
         transform.position += direction * speed * Time.deltaTime;
