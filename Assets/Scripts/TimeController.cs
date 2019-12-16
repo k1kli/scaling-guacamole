@@ -5,24 +5,26 @@ using UnityEngine;
 
 public class TimeController : MonoBehaviour
 {
-    public float noMoveTimescale = 0.05f;
-    public float rotateTimescale = 0.5f;
-    public float maxTimescale = 1.0f;
+    public float slowTimescale = 0.05f;
+    public float normalTimescale = 1.0f;
     private float defaultFixedDeltaTime;
     void Start()
     {
         defaultFixedDeltaTime = Time.fixedDeltaTime;
-        SetTimescale(false,false);
+        SetTimescale(normalTimescale);
     }
-    public void SetTimescale(bool cameraRotate, bool moveKeyPressed)
+    public void SetTimescale(float timeScale)
     {
-        if (cameraRotate)
-            Time.timeScale = rotateTimescale;
-        else if (moveKeyPressed)
-            Time.timeScale = maxTimescale;
-        else
-            Time.timeScale = noMoveTimescale;
+        Time.timeScale = timeScale;
         Time.fixedDeltaTime = defaultFixedDeltaTime * Time.timeScale;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.LeftShift))
+            SetTimescale(slowTimescale);
+        else
+            SetTimescale(normalTimescale);
     }
 
 }
