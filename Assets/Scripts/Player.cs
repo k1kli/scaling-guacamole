@@ -28,10 +28,6 @@ public class Player : DamageTaker
     public event System.Action ReloadStart;
     public event System.Action ReloadEnd;
 
-
-
-    private bool cameraRotation = false;
-    private bool playerMove = false;
     public PlayerBullet bulletPrefab;
 
     private void OnEnable()
@@ -50,7 +46,6 @@ public class Player : DamageTaker
     {
         PlayerMovement();
         CameraMovement();
-        timeController.SetTimescale(cameraRotation, playerMove);
         ShootingControl();
 
     }
@@ -80,16 +75,13 @@ public class Player : DamageTaker
     {
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
-        cameraRotation = false;
         if (Mathf.Abs(mouseX) > float.Epsilon)
         {
             cameraHorizontalRotator.Rotate(0.0f, mouseX * cameraSpeedX * Time.unscaledDeltaTime, 0.0f);
-            cameraRotation = true;
         }
         if (Mathf.Abs(mouseY) > float.Epsilon)
         {
             cameraTransform.Rotate(-mouseY * cameraSpeedY * Time.unscaledDeltaTime, 0.0f, 0.0f);
-            cameraRotation = true;
         }
     }
     void PlayerMovement()
@@ -100,7 +92,6 @@ public class Player : DamageTaker
         movement.y = Input.GetAxis("Jump");
         if (movement.sqrMagnitude > 1f)
             movement.Normalize();
-        playerMove = false;
         float verticalVelocity = body.velocity.y;
         if (Mathf.Abs(verticalVelocity) <= 0.01f)
         {
@@ -119,7 +110,6 @@ public class Player : DamageTaker
             Debug.Log("Jump");
             Vector3 up = Vector3.up;
             body.AddForce(movement.y * up * PlayerJumpPower);
-            playerMove = true;
             jumpProgress += Time.deltaTime;
             jumped = true;
         }
@@ -127,13 +117,11 @@ public class Player : DamageTaker
         {
             Vector3 right = cameraHorizontalRotator.right;
             body.AddForce(movement.x * right * playerSpeedSideways);
-            playerMove = true;
         }
         if (Mathf.Abs(movement.z) > float.Epsilon)
         {
             Vector3 forward = cameraHorizontalRotator.forward;
             body.AddForce(movement.z * forward * playerSpeedForward);
-            playerMove = true;
         }
         cameraHorizontalRotator.position = bodyTransform.position + cameraRelativePos;
     }
