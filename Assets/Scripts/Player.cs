@@ -40,9 +40,6 @@ public class Player : DamageTaker
     public event System.Action ReloadStart;
     public event System.Action ReloadEnd;
 
-
-
-
     private void OnEnable()
     {
         body = bodyTransform.GetComponent<Rigidbody>();
@@ -80,10 +77,6 @@ public class Player : DamageTaker
         }
     }
 
-    private void FixedUpdate()
-    {
-
-    }
     void CameraMovement()
     {
         float mouseX = Input.GetAxis("Mouse X");
