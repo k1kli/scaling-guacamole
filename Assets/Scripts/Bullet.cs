@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Bullet : MonoBehaviour
 {
-    private Vector3 direction = Vector3.zero;
+    protected Vector3 direction = Vector3.zero;
     public float speed = 10f;
     public string targetTag;
     // Start is called before the first frame update
@@ -22,7 +22,7 @@ public abstract class Bullet : MonoBehaviour
             var damageTaker = other.gameObject.GetComponentInParent<DamageTaker>();
             damageTaker.TakeDamage(10);
         }
-        OnHit();
+        OnHit(other);
         Destroy(gameObject);
     }
     private void OnTriggerExit(Collider other)
@@ -33,7 +33,7 @@ public abstract class Bullet : MonoBehaviour
         }
     }
 
-    virtual protected void OnHit() { }
+    virtual protected void OnHit(Collider other) { }
     void Update()
     {
         transform.position += direction * speed * Time.deltaTime;

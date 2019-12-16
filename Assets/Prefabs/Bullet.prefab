@@ -142,6 +142,8 @@ MonoBehaviour:
   targetTag: Enemy
   explosionPrefab: {fileID: 6902049377789453312, guid: 8ad894a396b51b04394ea9614897e784,
     type: 3}
+  bulletHolePrefab: {fileID: 6197053751468745769, guid: 4496f9e163ac50c46b9c07863e6e4e52,
+    type: 3}
 --- !u!136 &135272406328686074
 CapsuleCollider:
   m_ObjectHideFlags: 0
