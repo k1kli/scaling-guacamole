@@ -5,11 +5,13 @@ using UnityEngine;
 
 public class TimeController : MonoBehaviour
 {
-    public float slowTimescale = 0.05f;
+    public float slowTimescale = 0.1f;
     public float normalTimescale = 1.0f;
     private float defaultFixedDeltaTime;
+    UnityEngine.UI.Slider energyIndicator=null;
     void Start()
     {
+        energyIndicator = (UnityEngine.UI.Slider)GameObject.FindGameObjectWithTag("EnergyIndicator").GetComponent("Slider");
         defaultFixedDeltaTime = Time.fixedDeltaTime;
         SetTimescale(normalTimescale);
     }
@@ -21,10 +23,17 @@ public class TimeController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && (float)energyIndicator.value > Time.unscaledDeltaTime* 100.0f)
+        {
+            energyIndicator.value -= Time.unscaledDeltaTime * 100.0f;
             SetTimescale(slowTimescale);
+        }
         else
+        {
+            if (energyIndicator.value <= 500.0f)
+                energyIndicator.value += Time.unscaledDeltaTime * 50.0f;
             SetTimescale(normalTimescale);
+        }
     }
 
 }
