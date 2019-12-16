@@ -930,9 +930,6 @@ MonoBehaviour:
   PlayerJumpPower: 10
   reloadTime: 0.3
   MaxJumpMaxDuration: 0.3
-  VerticalCameraAngle:
-    min: -90
-    max: 90
 --- !u!4 &287538872
 Transform:
   m_ObjectHideFlags: 0
@@ -1162,9 +1159,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a6365b3cf211bf4f9c67b14745be620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noMoveTimescale: 0.015
-  rotateTimescale: 0.1
-  maxTimescale: 1
+  slowTimescale: 0.05
+  normalTimescale: 1
 --- !u!4 &461398820
 Transform:
   m_ObjectHideFlags: 0
