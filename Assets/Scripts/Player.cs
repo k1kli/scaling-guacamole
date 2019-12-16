@@ -9,30 +9,40 @@ public class Player : DamageTaker
     public Transform cameraTransform;
     public Transform cameraHorizontalRotator;
     public Transform bodyTransform;
+
+    public TimeController timeController;
+    private Rigidbody body;
+
+    public PlayerBullet bulletPrefab;
+
+    private Vector3 cameraRelativePos;
+
     public float cameraSpeedX = 300.0f;
     public float cameraSpeedY = 300.0f;
+
     public float playerSpeedForward = 2.0f;
     public float playerSpeedSideways = 2.0f;
     public float PlayerJumpPower = 2.0f;
-    public TimeController timeController;
-    private Rigidbody body;
-    private Vector3 cameraRelativePos;
+
     private float reloadProgress = 0.0f;
     public float reloadTime = 0.3f;
     private float jumpProgress = 0f;
     public float MaxJumpMaxDuration = 1f;
+
     private bool jumped = false;
     private bool inAir = false;
+
     private bool readyToShoot = true;
+
+    private bool cameraRotation = false;
+    private bool playerMove = false;
 
     public event System.Action ReloadStart;
     public event System.Action ReloadEnd;
 
+    [SerializeField]
+    FloatRange VerticalCameraAngle;
 
-
-    private bool cameraRotation = false;
-    private bool playerMove = false;
-    public PlayerBullet bulletPrefab;
 
     private void OnEnable()
     {
@@ -89,6 +99,17 @@ public class Player : DamageTaker
         if (Mathf.Abs(mouseY) > float.Epsilon)
         {
             cameraTransform.Rotate(-mouseY * cameraSpeedY * Time.unscaledDeltaTime, 0.0f, 0.0f);
+            Vector3 cameraEulerAngles = cameraTransform.localEulerAngles;
+            if (cameraEulerAngles.y > 90.0f && cameraEulerAngles.x < 180.0f)
+            {
+                cameraEulerAngles = new Vector3(90.0f, 0, 0);
+            }
+            else
+            if (cameraEulerAngles.y > 90.0f && cameraEulerAngles.x > 180.0f)
+            {
+                cameraEulerAngles = new Vector3(270.0f, 0, 0);
+            }
+            cameraTransform.localEulerAngles = cameraEulerAngles;
             cameraRotation = true;
         }
     }
