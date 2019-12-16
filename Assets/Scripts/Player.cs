@@ -41,7 +41,6 @@ public class Player : DamageTaker
     public event System.Action ReloadEnd;
 
 
-    public PlayerBullet bulletPrefab;
 
 
     private void OnEnable()
