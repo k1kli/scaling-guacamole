@@ -34,16 +34,18 @@ public class Jetpack : MonoBehaviour
     {
         float upInput = Input.GetAxis("Jump");
         float fuelUsage = fuelConsumptionPerSecond * Time.deltaTime;
-        if(Mathf.Abs(upInput) > float.Epsilon && RemainingJetpackFuel >= fuelUsage)
+        if (Mathf.Abs(upInput) > float.Epsilon) 
         {
-            body.velocity += Vector3.up * upInput * Time.deltaTime * speedMultiplier;
-            RemainingJetpackFuel -= fuelUsage;
-        }
-        else
+            if(RemainingJetpackFuel >= fuelUsage)
+            {
+                body.velocity += Vector3.up * upInput * Time.deltaTime * speedMultiplier;
+                RemainingJetpackFuel -= fuelUsage;
+            }
+        } 
+        else 
         {
             RemainingJetpackFuel += idleFuelRegen * Time.deltaTime;
         }
-
 
     }
 }
