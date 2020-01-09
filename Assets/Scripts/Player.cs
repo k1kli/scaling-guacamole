@@ -34,8 +34,6 @@ public class Player : DamageTaker
 
     private bool readyToShoot = true;
 
-    private bool cameraRotation = false;
-    private bool playerMove = false;
 
     UnityEngine.UI.Slider healthBar = null;
 
@@ -59,8 +57,8 @@ public class Player : DamageTaker
     // Update is called once per frame
     void Update()
     {
-        PlayerMovement();
         CameraMovement();
+        PlayerMovement();
         ShootingControl();
     }
 
@@ -104,49 +102,29 @@ public class Player : DamageTaker
                 cameraEulerAngles = new Vector3(270.0f, 0, 0);
             }
             cameraTransform.localEulerAngles = cameraEulerAngles;
-            cameraRotation = true;
 
         }
     }
     void PlayerMovement()
     {
-        Vector3 movement;
+        Vector2 movement;
         movement.x = Input.GetAxis("Horizontal");
-        movement.z = Input.GetAxis("Vertical");
-        movement.y = Input.GetAxis("Jump");
+        movement.y = Input.GetAxis("Vertical");
         if (movement.sqrMagnitude > 1f)
             movement.Normalize();
-        float verticalVelocity = body.velocity.y;
-        if (Mathf.Abs(verticalVelocity) <= 0.01f)
-        {
-            jumped = false;
-            inAir = false;
-            jumpProgress = 0f;
-        }
-        else
-        {
-            inAir = true;
-        }
-        if (Mathf.Abs(movement.y) > float.Epsilon && 
-            ((!jumped && !inAir) ||
-            (jumped && jumpProgress < MaxJumpMaxDuration)))
-        {
-            Debug.Log("Jump");
-            Vector3 up = Vector3.up;
-            body.AddForce(movement.y * up * PlayerJumpPower);
-            jumpProgress += Time.deltaTime;
-            jumped = true;
-        }
         if (Mathf.Abs(movement.x) > float.Epsilon)
         {
             Vector3 right = cameraHorizontalRotator.right;
             body.AddForce(movement.x * right * playerSpeedSideways);
         }
-        if (Mathf.Abs(movement.z) > float.Epsilon)
+        if (Mathf.Abs(movement.y) > float.Epsilon)
         {
             Vector3 forward = cameraHorizontalRotator.forward;
-            body.AddForce(movement.z * forward * playerSpeedForward);
+            body.AddForce(movement.y * forward * playerSpeedForward);
         }
+    }
+    private void LateUpdate()
+    {
         cameraHorizontalRotator.position = bodyTransform.position + cameraRelativePos;
     }
     IEnumerator Shoot()
