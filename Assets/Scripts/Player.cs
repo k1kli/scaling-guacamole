@@ -37,6 +37,8 @@ public class Player : DamageTaker
     private bool cameraRotation = false;
     private bool playerMove = false;
 
+    UnityEngine.UI.Slider healthBar = null;
+
     public event System.Action ReloadStart;
     public event System.Action ReloadEnd;
 
@@ -47,7 +49,10 @@ public class Player : DamageTaker
     // Start is called before the first frame update
     void Start()
     {
-        Init(20);
+        var playerMaxHP = 20f;
+        Init(playerMaxHP);
+        healthBar = (UnityEngine.UI.Slider)GameObject.FindGameObjectWithTag("HealthBar").GetComponent("Slider");
+        healthBar.value = healthBar.maxValue = playerMaxHP;
         cameraRelativePos = cameraHorizontalRotator.position - bodyTransform.position;
     }
 
@@ -57,7 +62,6 @@ public class Player : DamageTaker
         PlayerMovement();
         CameraMovement();
         ShootingControl();
-
     }
 
     private void ShootingControl()
@@ -158,5 +162,8 @@ public class Player : DamageTaker
     public override void Die()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    protected override void OnDamageTaken(float amount) {
+        healthBar.value = Health;
     }
 }
