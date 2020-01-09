@@ -8,7 +8,7 @@ public class TimeController : MonoBehaviour
     public float slowTimescale = 0.1f;
     public float normalTimescale = 1.0f;
     private float defaultFixedDeltaTime;
-    UnityEngine.UI.Slider energyIndicator=null;
+    UnityEngine.UI.Slider energyIndicator = null;
     void Start()
     {
         energyIndicator = (UnityEngine.UI.Slider)GameObject.FindGameObjectWithTag("EnergyIndicator").GetComponent("Slider");

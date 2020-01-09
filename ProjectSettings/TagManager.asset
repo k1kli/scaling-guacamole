@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Environment
   - EnergyIndicator
+  - HealthBar
   layers:
   - Default
   - TransparentFX
