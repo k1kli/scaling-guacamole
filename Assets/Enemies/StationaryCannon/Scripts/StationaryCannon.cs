@@ -15,7 +15,7 @@ public class StationaryCannon : DamageTaker {
     }
 
     private void OnEnable() {
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        playerTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
         headTransform.LookAt(playerTransform);
     }
 

@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  targetTag: Player
+  targetTag: PlayerModel
   explosionPrefab: {fileID: 6902049377789453312, guid: 8ad894a396b51b04394ea9614897e784,
     type: 3}
 --- !u!198 &-1719035445579602885

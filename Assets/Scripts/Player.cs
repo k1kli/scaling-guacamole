@@ -128,7 +128,7 @@ public class Player : DamageTaker
     IEnumerator Shoot()
     {
         ReloadStart?.Invoke();
-        Bullet bullet = GameObject.Instantiate<PlayerBullet>(bulletPrefab);
+        Bullet bullet = Instantiate<PlayerBullet>(bulletPrefab);
         bullet.transform.localPosition = cameraTransform.position + cameraTransform.forward * 0.7f;
         bullet.Init(cameraTransform.forward);
         readyToShoot = false;
