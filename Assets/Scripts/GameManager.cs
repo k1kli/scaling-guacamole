@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -33,5 +34,14 @@ public class GameManager : MonoBehaviour
             player.enabled = false;
             pausePanel.gameObject.SetActive(true);
         }
+    }
+    public void RestartGame()
+    {
+        PauseUnpauseGame();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }
