@@ -29,8 +29,6 @@ public class Player : DamageTaker
     private float jumpProgress = 0f;
     public float MaxJumpMaxDuration = 1f;
 
-    private bool jumped = false;
-    private bool inAir = false;
 
     private bool readyToShoot = true;
 
