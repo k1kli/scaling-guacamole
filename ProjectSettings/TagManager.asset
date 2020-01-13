@@ -9,6 +9,7 @@ TagManager:
   - Environment
   - EnergyIndicator
   - HealthBar
+  - PlayerModel
   layers:
   - Default
   - TransparentFX

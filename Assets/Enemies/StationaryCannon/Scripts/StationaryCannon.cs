@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StationaryCannon : DamageTaker {
     public Transform headTransform;
@@ -15,8 +16,10 @@ public class StationaryCannon : DamageTaker {
     }
 
     private void OnEnable() {
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        headTransform.LookAt(playerTransform);
+        playerTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
+		playerTransform = Array.Find(SceneManager.GetSceneByName("PlayerScene")
+            .GetRootGameObjects(), go => go.name == "Player")
+            .GetComponent<Player>().cameraTransform;        headTransform.LookAt(playerTransform);
     }
 
     // Update is called once per frame

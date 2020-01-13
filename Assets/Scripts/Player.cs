@@ -26,8 +26,6 @@ public class Player : DamageTaker
 
     private float reloadProgress = 0.0f;
     public float reloadTime = 0.3f;
-    private float jumpProgress = 0f;
-    public float MaxJumpMaxDuration = 1f;
 
 
     private bool readyToShoot = true;
@@ -121,6 +119,13 @@ public class Player : DamageTaker
             body.AddForce(movement.y * forward * playerSpeedForward);
         }
     }
+    public void MovePlayer(Vector3 targetPos, Quaternion targetRotation)
+    {
+        bodyTransform.position = targetPos;
+        bodyTransform.rotation = targetRotation;
+        cameraHorizontalRotator.position = bodyTransform.position + cameraRelativePos;
+        body.velocity = Vector3.zero;
+    }
     private void LateUpdate()
     {
         cameraHorizontalRotator.position = bodyTransform.position + cameraRelativePos;
@@ -128,7 +133,7 @@ public class Player : DamageTaker
     IEnumerator Shoot()
     {
         ReloadStart?.Invoke();
-        Bullet bullet = GameObject.Instantiate<PlayerBullet>(bulletPrefab);
+        Bullet bullet = Instantiate<PlayerBullet>(bulletPrefab);
         bullet.transform.localPosition = cameraTransform.position + cameraTransform.forward * 0.7f;
         bullet.Init(cameraTransform.forward);
         readyToShoot = false;

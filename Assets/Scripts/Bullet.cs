@@ -15,7 +15,7 @@ public abstract class Bullet : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("hit something");
+        Debug.Log($"hit {other.gameObject.tag}");
         if (other.CompareTag(targetTag))
         {
             Debug.Log("hit player");
